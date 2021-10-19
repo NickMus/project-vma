@@ -39,6 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
+        String userphone = null;
         String jwtToken = null;
         Integer id = null;
         List<Claim> claims = new ArrayList<>();
@@ -48,6 +49,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                userphone = jwtTokenUtil.getUserphoneFromToken(jwtToken);
+                System.out.println(jwtTokenUtil.getUsernameFromToken(jwtToken) + "name");
+                System.out.println(jwtTokenUtil.getUserphoneFromToken(jwtToken) + "phone");
                 id = (Integer) jwtTokenUtil.getAllClaimsFromToken(jwtToken).remove("id");
                 claims = (List<Claim>) jwtTokenUtil.getAllClaimsFromToken(jwtToken).get(keyRole);
             } catch (IllegalArgumentException e) {
@@ -59,7 +63,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.warn("JWT Token does not begin with Bearer String");
         }
 // Once we get the token validate it.
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null && userphone !=null && SecurityContextHolder.getContext().getAuthentication() == null) {
             this.jwtUserDetailsService.setId(id);
             this.jwtUserDetailsService.setClaims(claims);
             User userDetails = this.jwtUserDetailsService.loadUserByUsername(username);

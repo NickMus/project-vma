@@ -1,6 +1,5 @@
 package gpn.service;
 
-import gpn.contract.Claim;
 import gpn.contract.SystemUser;
 import gpn.exception.ApplicationException;
 import gpn.exception.UserNotFoundException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchResult;
-import java.util.List;
 
 @Service
 public class AuthenticationServiceImpl implements IAuthenticationService {
@@ -31,7 +29,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     private IClaimsService claimsService;
 
     @Override
-    public String getAuthToken(String userName) throws UserNotFoundException, ApplicationException {
+    public String getAuthToken(String userName, String userPhone) throws UserNotFoundException, ApplicationException {
 //        SearchResult searchResult;
 //        try {
 //            searchResult = ldapService.findAccountByAccountName(userName);
@@ -44,6 +42,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
         SystemUser sUser = new SystemUser();
         sUser.setUserName(userName);
+        sUser.setUserPhone(userPhone);
         sUser.setDomainName("-");
         sUser.setDisplayName("-");
         sUser.setEmail("-");
@@ -54,17 +53,17 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 //            throw new ApplicationException(e);
 //        }
 
-        SystemUser cUser = userService.getUser(sUser.getUserName());
-        boolean isNewUser = userService.update(sUser);
-        if (isNewUser) {
-            List<Claim> defaultClaims = claimsService.getDefaultUserClaims();
-            claimsService.updateClaims(sUser.getId(), defaultClaims);
-        }
+     //   SystemUser cUser = userService.getUser(sUser.getUserName());
+//        boolean isNewUser = userService.update(sUser);
+//        if (isNewUser) {
+//            List<Claim> defaultClaims = claimsService.getDefaultUserClaims();
+//            claimsService.updateClaims(sUser.getId(), defaultClaims);
+//        }
 
-        if (cUser != null) {
-            sUser.setId(cUser.getId());
-            sUser.setClaims(userService.getClaims(sUser.getId()));
-        }
+//        if (cUser != null) {
+//            sUser.setId(cUser.getId());
+//            sUser.setClaims(userService.getClaims(sUser.getId()));
+//        }
 
 //        SystemUser sUser = new SystemUser();
 
