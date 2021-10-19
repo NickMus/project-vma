@@ -12,11 +12,11 @@ public class SystemUser {
         this.userLastName = userLastName;
     }
 
-    public int getUserPhone() {
+    public String getUserPhone() {
         return userPhone;
     }
 
-    public void setUserPhone(int userPhone) {
+    public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
 
@@ -24,7 +24,7 @@ public class SystemUser {
     private String domainName;
     private String userName;
     private String userLastName;
-    private int userPhone;
+    private String userPhone;
     private String displayName;
     private String email;
     private String guid;
